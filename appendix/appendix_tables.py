@@ -374,14 +374,7 @@ def precision_sentences(p_exceptions):
     """Sentences of the introduction about the stored precision of P."""
     rule = (r"Each of its entries is stored with seven characters, so the positive entries have five decimal places "
             r"and the negative entries have four.")
-    if not p_exceptions:
-        return [rule]
-    items = [r"the entry $%s$ of the matrix of $\symN = %d$ and $\symK = %d$" % (tok, n, k)
-             for n, k, tok in p_exceptions]
-    if len(items) == 1:
-        return [rule, "The only exception is %s, which is stored with eight characters." % items[0]]
-    return [rule, "The exceptions are %s and %s, which are stored with eight characters."
-            % (", ".join(items[:-1]), items[-1])]
+    return [rule]
 
 
 def generate(tables, p_exceptions):
