@@ -10,6 +10,7 @@ advised by Prof. Ismael Seidel.
 | `codec/` | Patch over the JPEG Pleno reference software (JPLM) with the proposed technique |
 | `orders/` | Search of the interlacing orders and computation of the padding matrices |
 | `composite/` | Tables of the composite matrices used by the encoder |
+| `appendix/` | Generation of the appendix with the orders and the matrices |
 | `figures/` | Scripts of the figures of the thesis |
 | `data/` | Results of the experiments of Chapter 5 |
 
@@ -62,6 +63,15 @@ python3 composite/composite_tables.py <jplm>/source/Lib/Part2/Common/TransformMo
 ```
 
 Reads the orders of `Padding.cpp` and writes the tables of T = (C00^T)^-1 with five decimal places.
+
+## Appendix with the orders and the matrices
+
+```
+python3 appendix/appendix_tables.py <jplm>/source/Lib/Part2/Common/TransformMode/Padding.cpp appendix_c.tex
+```
+
+Reads the interlacing orders, the padding matrices and the composite matrices of `Padding.cpp`, checks them
+against the matrices computed from the orders, and writes the LaTeX source of Appendix C of the thesis.
 
 ## Figures
 
