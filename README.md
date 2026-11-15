@@ -75,6 +75,7 @@ Reads the orders of `Padding.cpp` and writes the tables of T = (C00^T)^-1 with f
 | `fig_block_policies` | `figures/block_policies.py` | light fields in PGX |
 | `rd_<light field>_<metric>` | `figures/rd_curves.py` | `data/metrics.csv`, jpeg-pleno-ctc-tools |
 
+`figures/style.py` has the palette, the fonts and the line widths shared by all the scripts.
 The light fields are those of the JPEG Pleno Common Test Conditions, available from the JPEG Pleno database.
 The RD curves use the plotting classes of jpeg-pleno-ctc-tools (commit `22fe9ba`).
 Tested with Python 3.12, NumPy 2.2, SciPy 1.15 and Matplotlib 3.10.

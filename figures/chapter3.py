@@ -10,9 +10,10 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import FancyArrowPatch, Patch, Rectangle
 
 OUT = "."
-plt.rcParams.update({"font.size": 9, "font.family": "serif", "mathtext.fontset": "cm", "pdf.fonttype": 42,
-                     "axes.spines.top": False, "axes.spines.right": False})
-BLUE, ORANGE, BLACK, GRAY, COEF = "#1f6fb4", "#e67e22", "#222222", "#8a8a8a", "#6b7280"
+import style
+from style import BLACK, BLUE, COEF, GRAY, ORANGE
+
+style.setup()
 N, K = 8, 5
 X = np.array([2.0, 4.0, 6.0, 8.0, 10.0])
 INTER = [1, 3, 5]

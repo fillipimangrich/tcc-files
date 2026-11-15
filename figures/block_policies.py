@@ -8,8 +8,10 @@ import numpy as np
 from matplotlib.colors import SymLogNorm
 from matplotlib.patches import ConnectionPatch, FancyArrowPatch, Rectangle
 
-plt.rcParams.update({"font.size": 9, "font.family": "serif", "mathtext.fontset": "cm", "pdf.fonttype": 42})
-RED, ORANGE, BLACK, BLUE = "#c0392b", "#e67e22", "#222222", "#1f6fb4"
+import style
+from style import BLACK, GRAY, ORANGE
+
+style.setup()
 B = 32
 ORDER_32_18 = [2, 4, 6, 8, 10, 12, 14, 17, 19, 21, 23, 25, 27, 29]
 
@@ -67,7 +69,7 @@ def main():
     coef_p[KV:] = 0.0
     VM = max(np.abs(c).max() for c in (coef_t, coef_r, coef_p))
     NORM = SymLogNorm(linthresh=10, linscale=0.6, vmin=-VM, vmax=VM, base=10)
-    CMAP = "RdBu_r"
+    CMAP = style.DIVERGING
 
     FW, FH = 6.3, 4.25
     fig = plt.figure(figsize=(FW, FH))
@@ -92,7 +94,7 @@ def main():
     for y in range(0, H, B):
         axv.axhline(y - 0.5, color="white", lw=0.3, alpha=0.7)
     axv.add_patch(Rectangle((-0.5, Y0 - 0.5), W, KV, facecolor=ORANGE, alpha=0.6, edgecolor="none"))
-    axv.add_patch(Rectangle((x0 - 0.5, Y0 - 0.5), B, KV, fill=False, edgecolor=RED, lw=1.8))
+    axv.add_patch(Rectangle((x0 - 0.5, Y0 - 0.5), B, KV, fill=False, edgecolor=BLACK, lw=1.6))
     axv.set_xlim(-0.5, W - 0.5)
     axv.set_ylim(H - 0.5, -0.5)
     axv.axis("off")
@@ -114,17 +116,17 @@ def main():
 
     b1 = panel(xb, y_b, B, B)
     b1.imshow(to_rgb(rep), interpolation="nearest")
-    b1.axhline(KV - 0.5, color=RED, lw=1.0, ls="--")
+    b1.axhline(KV - 0.5, color=ORANGE, lw=1.2, ls="--")
     b2 = panel(xc, y_b, B, B)
     b2.imshow(coef_r, cmap=CMAP, norm=NORM, interpolation="nearest")
 
     c1 = panel(xb, y_c, B, B)
     c1.imshow(to_rgb(prop), interpolation="nearest")
     for r in ORDER_32_18:
-        c1.plot([B - 0.5 + 0.4, B - 0.5 + 2.2], [r, r], color=RED, lw=1.0, clip_on=False, solid_capstyle="butt")
+        c1.plot([B - 0.5 + 0.4, B - 0.5 + 2.2], [r, r], color=ORANGE, lw=1.2, clip_on=False, solid_capstyle="butt")
     c2 = panel(xc, y_c, B, B)
     im = c2.imshow(coef_p, cmap=CMAP, norm=NORM, interpolation="nearest")
-    c2.add_patch(Rectangle((-0.5, KV - 0.5), B, B - KV, facecolor="none", edgecolor="#8a8a8a", hatch="////",
+    c2.add_patch(Rectangle((-0.5, KV - 0.5), B, B - KV, facecolor="none", edgecolor=GRAY, hatch="////",
                            lw=0.0))
     c2.axhline(KV - 0.5, color=BLACK, lw=1.0, ls="--")
     c2.text(B / 2 - 0.5, (KV + B) / 2 - 0.5, "448 zeros,\ndiscarded", fontsize=7, ha="center", va="center",
@@ -141,8 +143,8 @@ def main():
     b2.set_xlabel("1024 coefficients", fontsize=8, labelpad=2)
     c1.set_xlabel("$32 \\times 32$ samples", fontsize=8, labelpad=2)
     c2.set_xlabel("576 coefficients", fontsize=8, labelpad=2)
-    b1.text(B + 0.8, (KV + B) / 2 - 0.5, "14\nrepeated\nrows", fontsize=7, color=RED, va="center", ha="left")
-    c1.text(B + 4.2, B / 2, "14\ninterlaced\nrows", fontsize=7, color=RED, va="center", ha="left")
+    b1.text(B + 0.8, (KV + B) / 2 - 0.5, "14\nrepeated\nrows", fontsize=7, color=BLACK, va="center", ha="left")
+    c1.text(B + 4.2, B / 2, "14\ninterlaced\nrows", fontsize=7, color=BLACK, va="center", ha="left")
 
     for y, nrow, n in ((y_a, KV, KV), (y_b, B, B), (y_c, B, B)):
         ym = (y + nrow * p / 2) / FH
@@ -154,7 +156,7 @@ def main():
 
     for ax in (a1, b1, c1):
         fig.add_artist(ConnectionPatch(xyA=(x0 + B - 0.5, Y0 + KV / 2), coordsA=axv.transData, xyB=(-0.5, KV / 2),
-                                       coordsB=ax.transData, color=RED, lw=0.6, alpha=0.7))
+                                       coordsB=ax.transData, color=GRAY, lw=0.6))
 
     cax = ax_in(xc + B * p + 0.12, y_c, 0.09, y_a + KV * p - y_c)
     cb = fig.colorbar(im, cax=cax)

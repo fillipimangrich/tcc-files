@@ -8,9 +8,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.fft import dct
 
-plt.rcParams.update({"font.size": 10, "font.family": "serif", "axes.spines.top": False,
-                     "axes.spines.right": False, "pdf.fonttype": 42})
-BLUE, RED, GRAY = "#1f6fb4", "#c0392b", "#7f7f7f"
+import style
+from style import BLACK, GRAY, ORANGE
+
+style.setup()
 
 
 def dct_matrix(n):
@@ -33,13 +34,16 @@ def main():
         c = dct_matrix(n)
         unordered = [np.linalg.cond(c[k:][:, list(range(k, n))]) for k in ks]
         ordered = [np.linalg.cond(c[k:][:, order[(n, k)]]) for k in ks]
-        ax.semilogy(m, unordered, marker=mk, ms=4, color=RED, lw=1, label=f"concatenated, $N={n}$")
-        ax.semilogy(m, ordered, marker=mk, ms=4, color=BLUE, lw=1, ls="--", label=f"interlaced, $N={n}$")
-    ax.axhline(1 / np.finfo(float).eps, color=GRAY, ls=":", lw=0.8)
-    ax.text(8.5, 2e16 * 1.6, "double precision limit ($\\approx 10^{16}$)", color=GRAY, fontsize=7.5)
+        ax.semilogy(m, unordered, marker=mk, color=GRAY, ls="--", markeredgecolor="white", markeredgewidth=0.5,
+                    label=f"concatenated, $N={n}$")
+        ax.semilogy(m, ordered, marker=mk, color=ORANGE, markeredgecolor="white", markeredgewidth=0.5,
+                    label=f"interlaced, $N={n}$")
+    ax.axhline(1 / np.finfo(float).eps, color=BLACK, ls=":", lw=0.8)
+    ax.text(8.5, 2e16 * 1.6, "double precision limit ($\\approx 10^{16}$)", color=BLACK, fontsize=7.5)
+    ax.grid(axis="y")
     ax.set_xlabel("number of padding samples ($N-K$)")
-    ax.set_ylabel("condition number of $C_{11}$")
-    ax.legend(fontsize=7.5, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.2), frameon=False)
+    ax.set_ylabel("condition number of $\\mathbf{C}_{11}$")
+    ax.legend(ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.2))
     fig.tight_layout()
     os.makedirs(args.output, exist_ok=True)
     fig.savefig(os.path.join(args.output, "fig_conditioning.pdf"))

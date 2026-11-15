@@ -6,6 +6,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+import style
+
 VIEWS = {"Bikes": "007_007", "Danger_de_Mort": "007_007", "Fountain_Vincent2": "007_007",
          "Stone_Pillars_Outside": "007_007", "sideboard": "004_004", "greek": "004_004", "tarot": "008_008"}
 
@@ -24,7 +26,7 @@ def main():
     ap.add_argument("dataset", help="folder with the light fields in PPM (one subfolder per light field)")
     ap.add_argument("output", help="output folder")
     args = ap.parse_args()
-    plt.rcParams.update({"font.family": "serif"})
+    style.setup()
     fig, axs = plt.subplots(3, 3, figsize=(6.3, 6.6))
     axs = axs.ravel()
     for i, (lf, v) in enumerate(VIEWS.items()):

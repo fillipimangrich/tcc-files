@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import ConnectionPatch, Rectangle
 
-plt.rcParams.update({"font.size": 10, "font.family": "serif", "mathtext.fontset": "cm", "pdf.fonttype": 42})
-RED, BLACK = "#c0392b", "#222222"
+import style
+from style import BLACK, ORANGE
+
+style.setup(10)
 
 
 def read_pgx(path):
@@ -53,7 +55,7 @@ def main():
 
     axm.imshow(mosaic, interpolation="lanczos")
     x0, y0 = ss * (tw + gap), ts * (th + gap)
-    axm.add_patch(Rectangle((x0 - 1.5, y0 - 1.5), tw + 2, th + 2, fill=False, edgecolor=RED, lw=1.4))
+    axm.add_patch(Rectangle((x0 - 1.5, y0 - 1.5), tw + 2, th + 2, fill=False, edgecolor=ORANGE, lw=1.4))
     axm.set_xlim(-2, mosaic.shape[1] + 1)
     axm.set_ylim(mosaic.shape[0] + 1, -2)
     axm.axis("off")
@@ -70,7 +72,7 @@ def main():
     axv.set_xticks([])
     axv.set_yticks([])
     for sp in axv.spines.values():
-        sp.set_edgecolor(RED)
+        sp.set_edgecolor(ORANGE)
         sp.set_linewidth(1.4)
     bh, bw = big.shape[:2]
     axv.annotate("", xy=(bw * 0.62, -10), xytext=(bw * 0.38, -10), xycoords="data",
@@ -84,7 +86,7 @@ def main():
 
     for (xa, ya), (xb, yb) in [((x0 + tw, y0), (0, 0)), ((x0 + tw, y0 + th), (0, bh))]:
         fig.add_artist(ConnectionPatch(xyA=(xa, ya), coordsA=axm.transData, xyB=(xb, yb), coordsB=axv.transData,
-                                       color=RED, lw=0.8, alpha=0.8))
+                                       color=ORANGE, lw=0.8, alpha=0.8))
 
     os.makedirs(args.output, exist_ok=True)
     fig.savefig(os.path.join(args.output, "fig_lf_views.jpg"), dpi=250, bbox_inches="tight", pad_inches=0.04,

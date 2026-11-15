@@ -9,14 +9,17 @@ from collections import defaultdict
 import matplotlib
 matplotlib.use("Agg")
 
+import style
+from style import BLACK, BLUE, GRAY, ORANGE
+
 warnings.filterwarnings("ignore")
 
 ANCHOR = "anchor"
 CODECS = {
-    "anchor": ("Anchor (CTC blocks)", "blue", "o"),
-    "truncation": ("Truncation", "black", "s"),
-    "repetition": ("Padding by repetition", "gray", "v"),
-    "proposed": ("Proposed", "red", "D"),
+    "anchor": ("Anchor (CTC blocks)", BLACK, "o"),
+    "truncation": ("Truncation", BLUE, "s"),
+    "repetition": ("Padding by repetition", GRAY, "v"),
+    "proposed": ("Proposed", ORANGE, "D"),
 }
 DISPLAY = {"Bikes": "Bikes", "Danger_de_Mort": "Danger de Mort", "Fountain_Vincent2": "Fountain & Vincent 2",
            "Stone_Pillars_Outside": "Stone Pillars Outside", "greek": "Greek", "sideboard": "Sideboard",
@@ -73,6 +76,8 @@ def main():
             self.name = name
 
     os.makedirs(out, exist_ok=True)
+    import matplotlib.pyplot as plt
+    plt.rcParams.update({"font.family": "serif", "mathtext.fontset": "cm", "pdf.fonttype": 42})
     cfg = Config()
     pts = defaultdict(list)
     for r in csv.DictReader(open(args.metrics)):
